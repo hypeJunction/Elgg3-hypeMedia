@@ -22,7 +22,7 @@
 		}
 	},
 	"require": {
-		"npm-asset/slick-carousel": "^1.8",
+		"npm-asset/slick-carousel": "~1.8.0",
 		"npm-asset/hammerjs": "^2.0",
         "npm-asset/video.js": "^6.8",
         "olaferlandsen/ffmpeg-php-class": "^0.1.4"
