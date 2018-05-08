@@ -116,9 +116,9 @@ if (file_exists("$plugin_root/vendor/autoload.php")) {
 
 $conf['views'] = [
 	'default' => [
-		'slick/' => $path . '/vendor/npm-asset/slick-carousel/slick/',
-		'videojs/' => $path . '/vendor/npm-asset/video.js/dist/',
-		'hammer.js' => $path . '/vendor/npm-asset/hammerjs/hammer.min.js',
+		'slick/' => $path . '/vendor/bower-asset/slick-carousel/slick/',
+		'videojs/' => $path . '/vendors/video-js-6.8.0/',
+		'hammer.js' => $path . '/vendor/bower-asset/hammerjs/hammer.min.js',
 	],
 ];
 
