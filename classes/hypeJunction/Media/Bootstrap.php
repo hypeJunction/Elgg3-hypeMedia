@@ -38,10 +38,6 @@ class Bootstrap extends PluginBootstrap {
 	 * @return void
 	 */
 	public function init() {
-		MediaCollectionsService::instance()->register('media_album', [
-			'media_file',
-			'media_import',
-		]);
 
 		elgg_register_collection('collection:object:media_album:all', DefaultAlbumCollection::class);
 		elgg_register_collection('collection:object:media_album:owner', OwnedAlbumCollection::class);
@@ -116,7 +112,10 @@ class Bootstrap extends PluginBootstrap {
 	 * @return void
 	 */
 	public function ready() {
-
+		MediaCollectionsService::instance()->register('media_album', [
+			'media_file',
+			'media_import',
+		]);
 	}
 
 	/**
