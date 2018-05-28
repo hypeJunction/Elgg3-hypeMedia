@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/autoloader.php';
+
 $conf = [
 	'bootstrap' => \hypeJunction\Media\Bootstrap::class,
 
