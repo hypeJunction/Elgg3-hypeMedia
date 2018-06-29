@@ -30,7 +30,12 @@ class SyncMediaObjects {
 
 		foreach ($dependants as $dependant) {
 
+			$prev_published_status = $dependant->published_status;
 			$dependant->published_status = $object->published_status;
+
+			if ($dependant->published_status !== $prev_published_status && $dependant->published_status == 'published') {
+				elgg_trigger_event('publish', 'object', $dependant);
+			}
 
 			if (!$dependant->location && $object->location) {
 				$dependant->location = $object->location;

@@ -36,6 +36,10 @@ class UploadField extends Field {
 
 			$file->save();
 
+			$batch = $entity->getVolatileData('batch') ? : [];
+			$batch[] = $file->guid;
+			$entity->setVolatileData('batch', $batch);
+
 			$entity->addMedia($file);
 		}
 

@@ -55,6 +55,10 @@ class ImportField extends Field {
 
 			$import->save();
 
+			$batch = $entity->getVolatileData('batch') ? : [];
+			$batch[] = $import->guid;
+			$entity->setVolatileData('batch', $batch);
+
 			$entity->addMedia($import);
 		}
 

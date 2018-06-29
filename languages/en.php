@@ -46,6 +46,20 @@ return [
 	'media:settings:ffmpeg_bin' => 'FFMpeg executable path',
 	'media:settings:ffmpeg_bin:help' => 'Video conversion to web compatible formats requires ffmpeg installed on your server. It is usually located at /usr/bin/ffmpeg, but the path may vary depending on your server configuration. You can find detailed documentation and installation instructins at https://ffmpeg.org/',
 
+	'river:object:media_batch:create' => '%s added %s items to an album %s',
+
+	'media:notify:summary' => 'New items in album %s',
+	'media:notify:subject' => 'New items in album: %s',
+	'media:notify:body' =>
+		'
+%s added %s new items to album: %s
+
+%s
+
+View and comment on the album:
+%s
+',
+
 	'media:exif' => 'EXIF',
 	'exif.Model' => 'Camera',
 	'exif.LensInfo' => 'Lens Info',

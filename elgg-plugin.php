@@ -24,6 +24,12 @@ $conf = [
 			'class' => \hypeJunction\Media\MediaImport::class,
 			'searchable' => true,
 		],
+		[
+			'type' => 'object',
+			'subtype' => 'media_batch',
+			'class' => \hypeJunction\Media\MediaBatch::class,
+			'searchable' => true,
+		],
 	],
 ];
 

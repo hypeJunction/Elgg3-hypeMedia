@@ -2,43 +2,39 @@
 
 namespace hypeJunction\Media;
 
+use Elgg\Includer;
 use Elgg\PluginBootstrap;
 use Elgg\Values;
 
 class Bootstrap extends PluginBootstrap {
 
 	/**
-	 * Executed during 'plugins_boot:before', 'system' event
-	 *
-	 * Allows the plugin to require additional files, as well as configure services prior to booting the plugin
-	 *
-	 * @return void
+	 * Get plugin root
+	 * @return string
 	 */
-	public function load() {
-
+	protected function getRoot() {
+		return $this->plugin->getPath();
 	}
 
 	/**
-	 * Executed during 'plugins_boot:before', 'system' event
-	 *
-	 * Allows the plugin to register handlers for 'plugins_boot', 'system' and 'init', 'system' events,
-	 * as well as implement boot time logic
-	 *
-	 * @return void
+	 * {@inheritdoc}
+	 */
+	public function load() {
+		Includer::requireFileOnce($this->getRoot() . '/autoloader.php');
+	}
+
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function boot() {
 
 	}
 
 	/**
-	 * Executed during 'init', 'system' event
-	 *
-	 * Allows the plugin to implement business logic and register all other handlers
-	 *
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function init() {
-
 		elgg_register_collection('collection:object:media_album:all', DefaultAlbumCollection::class);
 		elgg_register_collection('collection:object:media_album:owner', OwnedAlbumCollection::class);
 		elgg_register_collection('collection:object:media_album:friends', FriendsAlbumCollection::class);
@@ -56,12 +52,15 @@ class Bootstrap extends PluginBootstrap {
 		elgg_register_plugin_hook_handler('fields', 'object', SetObjectFields::class, 800);
 
 		elgg_register_plugin_hook_handler('uses:location', 'object:media_album', [Values::class, 'getTrue']);
-		elgg_register_plugin_hook_handler('uses:river', 'object:media_album', [Values::class, 'getTrue']);
+		elgg_register_plugin_hook_handler('uses:river', 'object:media_album', [Values::class, 'getFalse']);
 		elgg_register_plugin_hook_handler('uses:autosave', 'object:media_album', [Values::class, 'getFalse']);
 
 		elgg_register_plugin_hook_handler('uses:location', 'object:media_file', [Values::class, 'getTrue']);
 
 		elgg_register_plugin_hook_handler('uses:web_location', 'object:media_import', [Values::class, 'getTrue']);
+
+		elgg_register_plugin_hook_handler('post:after', 'object:media_album', BatchNewMedia::class);
+		elgg_register_plugin_hook_handler('uses:river', 'object:media_batch', [Values::class, 'getTrue']);
 
 		elgg_register_plugin_hook_handler('likes:is_likable', 'object:media_album', [Values::class, 'getTrue']);
 		elgg_register_plugin_hook_handler('likes:is_likable', 'object:media_file', [Values::class, 'getTrue']);
@@ -69,7 +68,7 @@ class Bootstrap extends PluginBootstrap {
 
 		elgg_register_plugin_hook_handler('register', 'menu:entity', EntityMenu::class);
 		elgg_register_plugin_hook_handler('register', 'menu:title', TitleMenu::class);
-		elgg_register_plugin_hook_handler('register','menu:owner_block', OwnerBlockMenu::class);
+		elgg_register_plugin_hook_handler('register', 'menu:owner_block', OwnerBlockMenu::class);
 
 		elgg_register_menu_item('site', [
 			'name' => 'albums',
@@ -100,16 +99,14 @@ class Bootstrap extends PluginBootstrap {
 			'src' => elgg_get_simplecache_url('videojs/video.min.js'),
 		]);
 
-		add_group_tool_option('media');
-		elgg_extend_view('groups/tool_latest', 'media/group_module');
+		elgg()->group_tools->register('media');
+
+		elgg_register_notification_event('object', 'media_batch', ['publish']);
+		elgg_register_plugin_hook_handler('prepare', 'notification:publish:object:media_batch', FormatBatchNotification::class);
 	}
 
 	/**
-	 * Executed during 'ready', 'system' event
-	 *
-	 * Allows the plugin to implement logic after all plugins are initialized
-	 *
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function ready() {
 		MediaCollectionsService::instance()->register('media_album', [
@@ -119,37 +116,28 @@ class Bootstrap extends PluginBootstrap {
 	}
 
 	/**
-	 * Executed during 'shutdown', 'system' event
-	 *
-	 * Allows the plugin to implement logic during shutdown
-	 *
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function shutdown() {
+
 	}
 
 	/**
-	 * Executed when plugin is activated, after 'activate', 'plugin' event and before activate.php is included
-	 *
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function activate() {
+
 	}
 
 	/**
-	 * Executed when plugin is deactivated, after 'deactivate', 'plugin' event and before deactivate.php is included
-	 *
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function deactivate() {
+
 	}
 
 	/**
-	 * Registered as handler for 'upgrade', 'system' event
-	 *
-	 * Allows the plugin to implement logic during system upgrade
-	 *
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function upgrade() {
 
