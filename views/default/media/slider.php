@@ -5,6 +5,8 @@ if (!$entity instanceof \hypeJunction\Media\MediaCollection) {
 	return;
 }
 
+\hypeJunction\Slider\Slider::load();
+
 $collection = $entity->getMedia()->getList()->batch(0);
 
 $selected_guid = elgg_extract('selected', $vars);

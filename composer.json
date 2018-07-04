@@ -30,5 +30,11 @@
         "bower-asset/slick-carousel": "~1.8.0",
         "bower-asset/hammerjs": "^2.0",
         "olaferlandsen/ffmpeg-php-class": "^0.1.4"
-    }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
 }

@@ -48,6 +48,11 @@
         <name>hypeDropzone</name>
     </requires>
 
+    <requires>
+        <type>plugin</type>
+        <name>hypeSlider</name>
+    </requires>
+
     <suggests>
         <type>php_extension</type>
         <name>fileinfo</name>

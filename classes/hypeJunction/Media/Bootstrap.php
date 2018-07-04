@@ -86,14 +86,7 @@ class Bootstrap extends PluginBootstrap {
 		elgg_register_plugin_hook_handler('modules', 'object', AddMediaModules::class);
 
 		elgg_extend_view('elgg.css', 'media/media.css');
-		elgg_extend_view('elgg.css', 'slick/slick.css');
-		elgg_extend_view('elgg.css', 'slick/slick-theme.css');
 		elgg_extend_view('elgg.css', 'videojs/video-js.min.css');
-
-		elgg_define_js('slick', [
-			'src' => elgg_get_simplecache_url('slick/slick.min.js'),
-			'deps' => ['jquery'],
-		]);
 
 		elgg_define_js('videojs', [
 			'src' => elgg_get_simplecache_url('videojs/video.min.js'),
