@@ -42,21 +42,23 @@ $view = elgg_format_element('div', [
 	'style' => "background-image:url($bg_url)"
 ]);
 
-if ($album) {
-	$view = elgg_view('output/url', [
-		'href' => elgg_generate_entity_url($album, 'view', 'slider', [
-			'selected' => $entity->guid,
-		]),
-		'text' => $view,
-	]);
-} else {
-	$view = elgg_view('output/url', [
-		'href' => elgg_generate_entity_url($entity, 'info', null, [
-			'is_lightbox' => true,
-		]),
-		'text' => $view,
-		'class' => 'elgg-lightbox elgg-lightbox-photo',
-	]);
+if (elgg_extract('use_link', $vars) !== false) {
+	if ($album) {
+		$view = elgg_view('output/url', [
+			'href' => elgg_generate_entity_url($album, 'view', 'slider', [
+				'selected' => $entity->guid,
+			]),
+			'text' => $view,
+		]);
+	} else {
+		$view = elgg_view('output/url', [
+			'href' => elgg_generate_entity_url($entity, 'info', null, [
+				'is_lightbox' => true,
+			]),
+			'text' => $view,
+			'class' => 'elgg-lightbox elgg-lightbox-photo',
+		]);
+	}
 }
 
 echo elgg_format_element('div', [
